@@ -10,7 +10,7 @@ import java.util.List;
 
 import static javax.swing.SwingConstants.CENTER;
 
-public class PlayGUI extends JFrame implements ActionListener, MouseListener{
+public class FifteenGameGUI extends JFrame implements ActionListener, MouseListener{
     Border border = BorderFactory.createLineBorder(new Color(65, 136, 109, 255), 1);
     int r=65;
     int g=136;
@@ -27,7 +27,7 @@ public class PlayGUI extends JFrame implements ActionListener, MouseListener{
 
     JLabel win = new JLabel("");
 
-    public PlayGUI() {
+    public FifteenGameGUI() {
         setTitle("★ \uD835\uDFED\uD835\uDFF1 ★");
         spelGrid.setLayout(new GridLayout(rows, columns));
         int räknare=0;
@@ -180,7 +180,7 @@ public class PlayGUI extends JFrame implements ActionListener, MouseListener{
 
 
         public static void main (String[]args){
-            new PlayGUI();
+            new FifteenGameGUI();
         }
 
     @Override

@@ -18,8 +18,8 @@ public class JButtonArrayClass extends JFrame {
     public JButton[][] returnJButtonArray(String buttonNumber, JButton[][] buttons){
         int rowOfButton = 0;
         int columnOfButton = 0;
-        for (int row = 0; row < buttons.length; row++) {//mindre än 4...
-            for (int column = 0; column < buttons[row].length; column++) {//mindre än 4...
+        for (int row = 0; row < buttons.length; row++) {
+            for (int column = 0; column < buttons[row].length; column++) {
                 if(buttons[row][column].getText().equals(buttonNumber)){
                     rowOfButton=row;
                     columnOfButton=column;
@@ -95,7 +95,7 @@ public class JButtonArrayClass extends JFrame {
                 int rows = Integer.parseInt(JOptionPane.showInputDialog("Rows? Between 4 and 7"));
                 int columns = Integer.parseInt(JOptionPane.showInputDialog("Columns? Between 4 and 7"));
                 if((4<=rows && rows<=7 && 4<=columns && columns<=7)) {
-                    PlayGUI fifteenGame = new PlayGUI(rows, columns);
+                    FifteenGameGUI fifteenGame = new FifteenGameGUI(rows, columns);
                     run = false;
                 }else {
                     JOptionPane.showMessageDialog(null, "Sorry, you messed up. We'll try again!");
