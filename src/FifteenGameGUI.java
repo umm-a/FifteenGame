@@ -1,16 +1,13 @@
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
+import java.awt.event.*;
 import java.util.*;
 import java.util.List;
 
 import static javax.swing.SwingConstants.CENTER;
 
-public class FifteenGameGUI extends JFrame implements ActionListener, MouseListener{
+public class FifteenGameGUI extends JFrame implements ActionListener{
     Border border = BorderFactory.createLineBorder(new Color(65, 136, 109, 255), 1);
     int r=65;
     int g=136;
@@ -43,7 +40,7 @@ public class FifteenGameGUI extends JFrame implements ActionListener, MouseListe
                 buttons[row][column].setFont(new Font("Bold Serif", Font.BOLD, 16));
                 buttons[row][column].setBorder(border);
                 buttons[row][column].setFocusPainted(false);
-                buttons[row][column].addMouseListener(this);//not using mouselistener for buttons...
+              //  buttons[row][column].addMouseListener(mouseClickListener);//not using mouselistener for buttons...
             }
         }
 
@@ -59,7 +56,7 @@ public class FifteenGameGUI extends JFrame implements ActionListener, MouseListe
         newGameButton.setBorder(border);
         newGameButton.setPreferredSize(new Dimension(330, 60));
         newGameButton.setFocusPainted(false);
-        newGameButton.addMouseListener(this);
+        newGameButton.addMouseListener(mouseClickListener);
         win.setPreferredSize(new Dimension(330, 0));
         add(panel);
         panel.setBackground(new Color(1));
@@ -96,7 +93,7 @@ public class FifteenGameGUI extends JFrame implements ActionListener, MouseListe
                 buttons[row][column].setFont(new Font("Bold Serif", Font.BOLD, 16));
                 buttons[row][column].setBorder(border);
                 buttons[row][column].setFocusPainted(false);
-                buttons[row][column].addMouseListener(this);
+              //  buttons[row][column].addMouseListener(mouseClickListener);
                 r+=3;
                 g+=4;
                 b+=3;
@@ -135,7 +132,7 @@ public class FifteenGameGUI extends JFrame implements ActionListener, MouseListe
                 buttons[row][column].setFont(new Font("Bold Serif", Font.BOLD, 16));
                 buttons[row][column].setBorder(border);
                 buttons[row][column].setFocusPainted(false);
-                buttons[row][column].addMouseListener(this);
+             //   buttons[row][column].addMouseListener(mouseClickListener);
                 i++;
             }
         }
@@ -176,43 +173,39 @@ public class FifteenGameGUI extends JFrame implements ActionListener, MouseListe
             revalidate();
             repaint();
         }
+    MouseListener mouseClickListener = new MouseAdapter() {
+        @Override
+        public void mousePressed(MouseEvent e) {
+            if(e.getSource()==newGameButton)
+                newGameButton.setForeground(new Color(0xFFFFFF));
+            newGameButton.setBackground((new Color(0x1E071E)));
+        }
+        @Override
+        public void mouseReleased(MouseEvent e) {
+            if(e.getSource()==newGameButton) {
+                newGameButton.setForeground(new Color(0x6EB298));
+            }
+        }
+        @Override
+        public void mouseEntered(MouseEvent e) {
+            if(e.getSource()==newGameButton)
+                newGameButton.setBackground((new Color(0x130F1C)));
+        }
 
-
+        @Override
+        public void mouseExited(MouseEvent e) {
+            if(e.getSource()==newGameButton) {
+                newGameButton.setBackground((new Color(0x1B3D30)));
+            }
+        }
+    };
 
         public static void main (String[]args){
             new FifteenGameGUI();
         }
 
-    @Override
-    public void mouseClicked(MouseEvent e) {
-    }
 
-    @Override
-    public void mousePressed(MouseEvent e) {
-        if(e.getSource()==newGameButton)
-            newGameButton.setForeground(new Color(0xFFFFFF));
-            newGameButton.setBackground((new Color(0x1E071E)));
-    }
 
-    @Override
-    public void mouseReleased(MouseEvent e) {
-        if(e.getSource()==newGameButton) {
-            newGameButton.setForeground(new Color(0x6EB298));
-        }
-    }
-
-    @Override
-    public void mouseEntered(MouseEvent e) {
-        if(e.getSource()==newGameButton)
-            newGameButton.setBackground((new Color(0x130F1C)));
-    }
-
-    @Override
-    public void mouseExited(MouseEvent e) {
-        if(e.getSource()==newGameButton) {
-            newGameButton.setBackground((new Color(0x1B3D30)));
-        }
-    }
 }
 
 
