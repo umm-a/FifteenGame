@@ -40,7 +40,6 @@ public class FifteenGameGUI extends JFrame implements ActionListener{
                 buttons[row][column].setFont(new Font("Bold Serif", Font.BOLD, 16));
                 buttons[row][column].setBorder(border);
                 buttons[row][column].setFocusPainted(false);
-              //  buttons[row][column].addMouseListener(mouseClickListener);//not using mouselistener for buttons...
             }
         }
 
@@ -74,16 +73,15 @@ public class FifteenGameGUI extends JFrame implements ActionListener{
         int i=0;
 
 
-        for (int row = 0; row < buttons.length; row++) {//mindre än 4...
-            for (int column = 0; column < buttons[row].length; column++) {//mindre än 4...
-
+        for (int row = 0; row < buttons.length; row++) {
+            for (int column = 0; column < buttons[row].length; column++) {
                 try {
                     räknare[i] = Integer.parseInt(buttons[row][column].getText());
                     buttons[row][column] = new JButton(String.valueOf(räknare[i]));
 
                     spelGrid.add(buttons[row][column]);
                     buttons[row][column].addActionListener(this);
-                }catch (NumberFormatException e){
+                } catch (NumberFormatException e){
                     buttons[row][column] = new JButton(" ");
                     spelGrid.add(buttons[row][column]);
                     buttons[row][column].addActionListener(this);
@@ -93,7 +91,6 @@ public class FifteenGameGUI extends JFrame implements ActionListener{
                 buttons[row][column].setFont(new Font("Bold Serif", Font.BOLD, 16));
                 buttons[row][column].setBorder(border);
                 buttons[row][column].setFocusPainted(false);
-              //  buttons[row][column].addMouseListener(mouseClickListener);
                 r+=3;
                 g+=4;
                 b+=3;
@@ -126,13 +123,11 @@ public class FifteenGameGUI extends JFrame implements ActionListener{
                         System.out.println("HOW?");
                     }
                 }
-
                 buttons[row][column].setBackground(new Color(r, g, b));
                 buttons[row][column].setForeground(new Color(7, 26, 14, 163));
                 buttons[row][column].setFont(new Font("Bold Serif", Font.BOLD, 16));
                 buttons[row][column].setBorder(border);
                 buttons[row][column].setFocusPainted(false);
-             //   buttons[row][column].addMouseListener(mouseClickListener);
                 i++;
             }
         }
@@ -176,9 +171,11 @@ public class FifteenGameGUI extends JFrame implements ActionListener{
     MouseListener mouseClickListener = new MouseAdapter() {
         @Override
         public void mousePressed(MouseEvent e) {
-            if(e.getSource()==newGameButton)
+            if(e.getSource()==newGameButton) {
                 newGameButton.setForeground(new Color(0xFFFFFF));
-            newGameButton.setBackground((new Color(0x1E071E)));
+                newGameButton.setBackground((new Color(0x1E071E)));
+            }
+
         }
         @Override
         public void mouseReleased(MouseEvent e) {
