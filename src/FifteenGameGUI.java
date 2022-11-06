@@ -9,13 +9,16 @@ import static javax.swing.SwingConstants.CENTER;
 
 public class FifteenGameGUI extends JFrame implements ActionListener{
     Border border = BorderFactory.createLineBorder(new Color(65, 136, 109, 255), 1);
-    int r=65;
-    int g=136;
-    int b=123;
+    // Base definitions
+    final Font buttonFont = new Font("Bold Serif", Font.BOLD, 16);
+    final int button_r = 65;
+    final int button_g = 136;
+    final int button_b = 123;
+    final Color button_color = new Color(button_r, button_g, button_b);
+    Color current_button_color = button_color;
     int rows = 4;
     int columns = 4;
-    List<String> stringList = Arrays.asList("1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", " ");
-    String[] arrayNumbersString = {"1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", " "};
+    List<String> correctNumberOrder = Arrays.asList("1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", " ");
 
     JButton[][] buttons = new JButton[rows][columns];
     JPanel spelGrid = new JPanel();
@@ -31,7 +34,7 @@ public class FifteenGameGUI extends JFrame implements ActionListener{
 
         for (int row = 0; row < buttons.length; row++) {
             for (int column = 0; column < buttons[row].length; column++) {
-                buttons[row][column]=new JButton(arrayNumbersString[räknare]);
+                buttons[row][column]= new JButton(correctNumberOrder.get(räknare));
                 buttons[row][column].setBackground(new Color(0xBAC2BA));
                 spelGrid.add(buttons[row][column]);
                 buttons[row][column].addActionListener(this);
@@ -65,8 +68,20 @@ public class FifteenGameGUI extends JFrame implements ActionListener{
         setLocationRelativeTo(null);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
     }
+    public Color increaseColorOrReset(Color someColor) {
 
-    public void newGrid(JButton[][] buttons, JPanel spelGrid, int r, int g, int b) {
+        int next_r = someColor.getRed() + 3;
+        int next_g = someColor.getGreen() + 4;
+        int next_b = someColor.getBlue() + 3;
+
+        final int max_color_value = 210;
+
+        if (next_g > max_color_value)
+            return new Color(button_r, button_g, button_b);
+        else
+            return new Color(next_r, next_g, next_b);
+    }
+    public void newGrid(JButton[][] buttons, JPanel spelGrid, Color button_color) {
         spelGrid.removeAll();
         spelGrid.setLayout(new GridLayout(4, 4));
         int[] räknare = new int[16];
@@ -86,26 +101,27 @@ public class FifteenGameGUI extends JFrame implements ActionListener{
                     spelGrid.add(buttons[row][column]);
                     buttons[row][column].addActionListener(this);
                 }
-                buttons[row][column].setBackground(new Color(r, g, b));
+                buttons[row][column].setBackground(button_color);
                 buttons[row][column].setForeground(new Color(7, 26, 14, 163));
-                buttons[row][column].setFont(new Font("Bold Serif", Font.BOLD, 16));
+                buttons[row][column].setFont(buttonFont);
                 buttons[row][column].setBorder(border);
                 buttons[row][column].setFocusPainted(false);
-                r+=3;
-                g+=4;
-                b+=3;
+
+                button_color = increaseColorOrReset(button_color);
                 i++;
             }
         }
     }
 
-    public void newGameGrid(JButton[][] buttons, JPanel spelGrid, int r, int g, int b) {
+    public void newGameGrid(JButton[][] buttons, JPanel spelGrid, Color button_color) {
         spelGrid.removeAll();
         spelGrid.setLayout(new GridLayout(rows, columns));
         Integer[] räknare = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 0};
         List<Integer> räknareList = Arrays.asList(räknare);
         Collections.shuffle(räknareList);
         räknareList.toArray(räknare);
+        final Color buttonForegroundColor = new Color(7, 26, 14, 163);
+
         int i=0;
         for (int row = 0; row < buttons.length; row++) {
             for (int column = 0; column < buttons[row].length; column++) {
@@ -123,9 +139,9 @@ public class FifteenGameGUI extends JFrame implements ActionListener{
                         System.out.println("HOW?");
                     }
                 }
-                buttons[row][column].setBackground(new Color(r, g, b));
-                buttons[row][column].setForeground(new Color(7, 26, 14, 163));
-                buttons[row][column].setFont(new Font("Bold Serif", Font.BOLD, 16));
+                buttons[row][column].setBackground(button_color);
+                buttons[row][column].setForeground(buttonForegroundColor);
+                buttons[row][column].setFont(buttonFont);
                 buttons[row][column].setBorder(border);
                 buttons[row][column].setFocusPainted(false);
                 i++;
@@ -133,7 +149,7 @@ public class FifteenGameGUI extends JFrame implements ActionListener{
         }
     }
 
-    public List<String> JButtonsToString(JButton[][] buttons){
+    public List<String> JButtonsToString(JButton[][] buttons) {
         ArrayList<String> buttonsToString = new ArrayList<>();
         for (int row = 0; row < buttons.length; row++) {
             for (int column = 0; column < buttons[row].length; column++) {
@@ -148,15 +164,15 @@ public class FifteenGameGUI extends JFrame implements ActionListener{
         JButtonArrayClass jbac = new JButtonArrayClass(rows, columns);
 
         if(e.getSource() == newGameButton) {
-            newGameGrid(buttons, spelGrid, r, g, b);
+            newGameGrid(buttons, spelGrid, button_color);
             win.setPreferredSize(new Dimension(0,0));
             } else {
-            ((JButton) e.getSource()).setBackground(Color.red);
             System.out.println("Chosen number\n" + ((JButton) e.getSource()).getText());
             buttons = jbac.returnJButtonArray(((JButton) e.getSource()).getText(), buttons);
-            newGrid(buttons, spelGrid, r, g, b);
+            current_button_color = increaseColorOrReset(current_button_color);
+            newGrid(buttons, spelGrid, current_button_color);
 
-            if(JButtonsToString(buttons).equals(stringList)){
+            if(JButtonsToString(buttons).equals(correctNumberOrder)) {
                 win.setText("WINNER!!");
                 win.setFont(new Font("Monospaced", Font.BOLD, 18));
                 panel.setBackground((new Color(0xFFA359)));
